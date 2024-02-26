@@ -15,9 +15,44 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    JWT_VERSION = "0.11.5"
+    OPEN_API_VERSION = "2.0.4"
+}
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
+// 스프링 JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // 스프링 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // 스프링 웹
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 롬복
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // 스프링 벨리데이션
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // H2 데이터베이스
+    runtimeOnly 'com.h2database:h2'
+
+    // 스프링 독
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${OPEN_API_VERSION}"
+
+    // JWT
+    implementation "io.jsonwebtoken:jjwt-api:${JWT_VERSION}"
+    runtimeOnly "io.jsonwebtoken:jjwt-gson:${JWT_VERSION}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${JWT_VERSION}"
+
+    // 테스트 관련
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
