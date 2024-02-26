@@ -18,10 +18,11 @@ repositories {
 ext {
     JWT_VERSION = "0.11.5"
     OPEN_API_VERSION = "2.0.4"
+    GSON_VERSION = "2.8.8"
 }
 
 dependencies {
-// 스프링 JPA
+    // 스프링 JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // 스프링 시큐리티
@@ -50,9 +51,16 @@ dependencies {
     runtimeOnly "io.jsonwebtoken:jjwt-gson:${JWT_VERSION}"
     runtimeOnly "io.jsonwebtoken:jjwt-impl:${JWT_VERSION}"
 
+    // Gson
+    implementation "com.google.code.gson:gson:${GSON_VERSION}"
+
     // 테스트 관련
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('bootJar') {
+    archiveFileName = 'boldPaws.jar'
 }
 
 tasks.named('test') {
