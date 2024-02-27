@@ -1,0 +1,34 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+=== 1. MEMBER
+
+==== 회원가입
+`*_1. Success_*`
+
+**request-fields**
+
+include::{snippets}/member/signUp/success/request-fields.adoc[]
+
+**Example request**
+include::{snippets}/member/signUp/success/http-request.adoc[]
+
+**Example response**
+include::{snippets}/member/signUp/success/http-response.adoc[]
+
+`*_2. Fail_(Duplicate Member)*`
+
+**Example request**
+include::{snippets}/member/signUp/duplicateMember/http-request.adoc[]
+
+**Example response**
+include::{snippets}/member/signUp/duplicateMember/http-response.adoc[]
+
+`*_3. Fail_(Validation Fail)*`
+
+**Example request**
+include::{snippets}/member/signUp/validationFail/http-request.adoc[]
+
+**Example response**
+include::{snippets}/member/signUp/validationFail/http-response.adoc[]

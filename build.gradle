@@ -1,7 +1,9 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.3'
+    id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
+    /** Rest Docs 플러그인 */
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 group = 'com.dangdang'
@@ -57,7 +59,10 @@ dependencies {
     // 테스트 관련
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    // Rest Docs
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
+
 
 tasks.named('bootJar') {
     archiveFileName = 'boldPaws.jar'
@@ -65,4 +70,32 @@ tasks.named('bootJar') {
 
 tasks.named('test') {
     useJUnitPlatform()
+    outputs.dir snippetsDir
+}
+
+/**
+ * Rest Docs 관련 설정
+ * */
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+asciidoctor {
+    dependsOn test
+    inputs.dir snippetsDir
+}
+
+/** API 명세 갱신을 위해 기존 문서를 제거해준다. */
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
+}
+
+build {
+    dependsOn copyDocument
 }

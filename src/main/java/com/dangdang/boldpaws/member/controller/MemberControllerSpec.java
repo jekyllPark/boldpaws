@@ -1,5 +1,6 @@
 package com.dangdang.boldpaws.member.controller;
 
+import com.dangdang.boldpaws.common.exception.dto.ApiResult;
 import com.dangdang.boldpaws.member.dto.SignUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -8,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +33,7 @@ public interface MemberControllerSpec {
                                     "    \"status\": 400,\n" +
                                     "    \"errors\": {\n" +
                                     "        \"email\": \"유효한 이메일 주소 형식이 아닙니다.\",\n" +
-                                    "        \"password\": \"비밀번호는 영문, 숫자, 특수문자를 모두 하나 이상 포함해야 합니다.\",\n" +
+                                    "        \"password\": \"비밀번호는 영문, 숫자, 특수문자를 모두 하나 이상 포함해야하며 8자 이상이어야 합니다.\",\n" +
                                     "        \"hp\": \"유효한 전화번호 형식이 아닙니다. (XXX-XXXX-XXXX 또는 XXX-XXX-XXXX)\",\n" +
                                     "        \"name\": \"사용자의 이름이 비어있습니다.\"\n" +
                                     "    }\n" +
@@ -42,5 +42,5 @@ public interface MemberControllerSpec {
             }
     )
     @PostMapping
-    ResponseEntity<HttpStatus> signUp(@RequestBody @Valid SignUpRequest req);
+    ResponseEntity<ApiResult> signUp(@RequestBody @Valid SignUpRequest req);
 }
