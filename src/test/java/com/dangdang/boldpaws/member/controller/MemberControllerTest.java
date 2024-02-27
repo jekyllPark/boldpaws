@@ -3,6 +3,7 @@ package com.dangdang.boldpaws.member.controller;
 import com.dangdang.boldpaws.common.RootTest;
 import com.dangdang.boldpaws.common.exception.constants.ApiStatusCode;
 import com.dangdang.boldpaws.common.util.JsonConverter;
+import com.dangdang.boldpaws.member.domain.entity.Member;
 import com.dangdang.boldpaws.member.dto.SignUpRequest;
 import com.dangdang.boldpaws.member.exception.DuplicateMemberException;
 import com.dangdang.boldpaws.member.fixture.SignUpFixture;
@@ -16,18 +17,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Set;
 
+import static com.dangdang.boldpaws.member.fixture.SignUpFixture.VALID_SIGN_UP_REQ;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -44,21 +48,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(RestDocumentationExtension.class)
 @WebMvcTest(MemberController.class)
 class MemberControllerTest extends RootTest {
-    private MemberController memberController;
     @MockBean
     private MemberService memberService;
+    @MockBean
+    private PasswordEncoder passwordEncoder;
     private MockMvc mockMvc;
     private Validator validator;
     private static final String MEMBER_API = "/member";
 
     @BeforeEach
     void setUp(WebApplicationContext applicationContext, RestDocumentationContextProvider contextProvider) {
+        MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext)
                 .apply(documentationConfiguration(contextProvider))
                 .build();
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
-        memberController = new MemberController(memberService);
     }
 
     @Test
@@ -67,7 +72,7 @@ class MemberControllerTest extends RootTest {
         // given & when
         mockMvc.perform(post(MEMBER_API)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonConverter.toJsonString(SignUpFixture.VALID_SIGN_UP_REQ)))
+                        .content(JsonConverter.toJsonString(VALID_SIGN_UP_REQ)))
                 .andDo(print())
                 // then
                 .andExpect(status().isOk())
@@ -91,12 +96,12 @@ class MemberControllerTest extends RootTest {
     @DisplayName("이미 등록된 이메일로 가입 시에 DuplicateMemberException 예외가 발생한다.")
     void 회원가입_중복() throws Exception {
         // given
-        Mockito.when(memberController.signUp(any(SignUpRequest.class))).thenThrow(DuplicateMemberException.class);
+        Mockito.doThrow(new DuplicateMemberException()).when(memberService).signUp(any(Member.class));
 
         // when
         mockMvc.perform(post(MEMBER_API)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonConverter.toJsonString(SignUpFixture.VALID_SIGN_UP_REQ)))
+                        .content(JsonConverter.toJsonString(VALID_SIGN_UP_REQ)))
                 .andDo(print())
                 // then
                 .andExpect(jsonPath("$.status").value(ApiStatusCode.FAIL.name()))
@@ -130,7 +135,7 @@ class MemberControllerTest extends RootTest {
     @Test
     @DisplayName("회원가입 요청 객체의 모든 유효성을 통과한다.")
     void 유효성_통과() {
-        validator.validate(SignUpFixture.VALID_SIGN_UP_REQ);
+        validator.validate(VALID_SIGN_UP_REQ);
     }
 
     @Test
