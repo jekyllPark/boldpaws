@@ -1,4 +1,4 @@
-package com.dangdang.boldpaws.common.security.component;
+package com.dangdang.boldpaws.common.security.jwt.component;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -17,7 +17,7 @@ import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
 
-import static com.dangdang.boldpaws.common.security.constants.JwtConstants.JWT_TOKEN_PREFIX;
+import static com.dangdang.boldpaws.common.security.jwt.constants.JwtConstants.JWT_TOKEN_PREFIX;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
@@ -53,7 +53,7 @@ public class TokenProvider implements InitializingBean {
         return new UsernamePasswordAuthenticationToken(user, token, Collections.EMPTY_LIST);
     }
 
-    public static Claims findClaimsByJwt(String token) {
+    public Claims findClaimsByJwt(String token) {
         Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(key)

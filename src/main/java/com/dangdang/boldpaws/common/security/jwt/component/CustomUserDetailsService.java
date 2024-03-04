@@ -1,4 +1,4 @@
-package com.dangdang.boldpaws.common.security.component;
+package com.dangdang.boldpaws.common.security.jwt.component;
 
 import com.dangdang.boldpaws.member.domain.entity.Member;
 import com.dangdang.boldpaws.member.domain.repository.MemberRepository;
@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import static com.dangdang.boldpaws.common.security.constants.SecurityErrorMsg.NOT_FOUND_AUTHENTICATION;
+import static com.dangdang.boldpaws.common.security.jwt.constants.JwtErrorMessage.NOT_FOUND_AUTHENTICATION;
 
 
 @Service

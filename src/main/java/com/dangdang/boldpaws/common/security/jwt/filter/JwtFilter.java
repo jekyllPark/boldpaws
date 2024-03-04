@@ -1,6 +1,6 @@
-package com.dangdang.boldpaws.common.security.filter;
+package com.dangdang.boldpaws.common.security.jwt.filter;
 
-import com.dangdang.boldpaws.common.security.component.TokenProvider;
+import com.dangdang.boldpaws.common.security.jwt.component.TokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

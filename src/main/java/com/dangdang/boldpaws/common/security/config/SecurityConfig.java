@@ -1,8 +1,9 @@
 package com.dangdang.boldpaws.common.security.config;
 
-import com.dangdang.boldpaws.common.security.component.JwtAuthenticationEntryPoint;
-import com.dangdang.boldpaws.common.security.filter.JwtFilter;
-import com.dangdang.boldpaws.common.security.handler.JwtAccessDeniedHandler;
+import com.dangdang.boldpaws.common.security.jwt.component.JwtAuthenticationEntryPoint;
+import com.dangdang.boldpaws.common.security.jwt.filter.JwtFilter;
+import com.dangdang.boldpaws.common.security.jwt.handler.JwtAccessDeniedHandler;
+import com.dangdang.boldpaws.common.security.oauth.service.OAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -27,24 +28,27 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final OAuth2UserService oauth2UserService;
 
     /**
      * 비밀번호 암호화를 위한 인코더 등록
-     * */
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     /**
      * AuthenticationManagerBuilder 를 통해서가 아닌 직접 AuthenticationManager 를 사용하기 위함
-     * */
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+
     /**
      * 시큐리티 체이닝 설정
-     * */
+     */
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -69,21 +73,21 @@ public class SecurityConfig {
 
                 /** API 엔드포인트, static 등 각 자원에 대한 권한 설정 */
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        /** 권한이 필요하지 않은 경로 */
-                        .requestMatchers(
-                                "/member/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/api-docs/**",
-                                "/favicon.ico",
-                                "/error"
-                        ).permitAll()
-                        /** 권한이 필요한 경로, 추후 API 설계 후 설정 */
+                                .requestMatchers(PathRequest.toH2Console()).permitAll()
+                                /** 권한이 필요하지 않은 경로 */
+                                .requestMatchers(
+                                        "/member/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html",
+                                        "/api-docs/**",
+                                        "/favicon.ico",
+                                        "/error"
+                                ).permitAll()
+                                /** fixme 권한이 필요한 경로, 추후 API 설계 후 설정 */
 //                        .requestMatchers(
 //                                ""
 //                        ).authenticated()
-                        .anyRequest().authenticated()
+                                .anyRequest().authenticated()
                 )
 
                 /** Jwt 사용을 위해 세션 상태 값 설정 */
@@ -91,6 +95,17 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
+        /** oauth2 설정 */
+        http.oauth2Login(oauth2 -> oauth2
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/error") // fixme 로그인 실패 시 에러 페이지 추후 수정
+//                .successHandler(null)
+                .userInfoEndpoint(userInfoEndPoint -> userInfoEndPoint.userService(oauth2UserService))
+        );
+
+        /** 로그아웃 시 로그인 페이지로 이동 */
+        http.logout(logout -> logout.logoutSuccessUrl("/login"));
         return http.build();
     }
 }

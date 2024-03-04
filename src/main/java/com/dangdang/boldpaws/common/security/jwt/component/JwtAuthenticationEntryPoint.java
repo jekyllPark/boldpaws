@@ -1,4 +1,4 @@
-package com.dangdang.boldpaws.common.security.component;
+package com.dangdang.boldpaws.common.security.jwt.component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

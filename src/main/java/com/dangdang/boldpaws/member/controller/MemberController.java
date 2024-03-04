@@ -1,6 +1,7 @@
 package com.dangdang.boldpaws.member.controller;
 
 import com.dangdang.boldpaws.common.exception.dto.ApiResult;
+import com.dangdang.boldpaws.member.constants.MemberApiMessage;
 import com.dangdang.boldpaws.member.dto.SignUpRequest;
 import com.dangdang.boldpaws.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,6 @@ public class MemberController implements MemberControllerSpec {
     @Override
     public ResponseEntity<ApiResult> signUp(SignUpRequest req) {
         memberService.signUp(SignUpRequest.toEntity(req, passwordEncoder));
-        return ResponseEntity.status(HttpStatus.OK).body(success("회원가입이 정상적으로 처리되었습니다."));
+        return ResponseEntity.status(HttpStatus.OK).body(success(MemberApiMessage.SUCCESS_SIGN_UP));
     }
 }
