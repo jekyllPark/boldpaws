@@ -1,7 +1,9 @@
 package com.dangdang.boldpaws.common.security.oauth.handler;
 
 import com.dangdang.boldpaws.common.security.jwt.component.TokenProvider;
+import com.dangdang.boldpaws.common.security.jwt.constants.TokenType;
 import com.dangdang.boldpaws.common.security.jwt.service.RefreshTokenService;
+import com.dangdang.boldpaws.common.utils.CookieUtils;
 import com.dangdang.boldpaws.member.constants.MemberErrorMessage;
 import com.dangdang.boldpaws.member.domain.entity.Member;
 import com.dangdang.boldpaws.member.domain.repository.MemberRepository;
@@ -30,6 +32,7 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         Member member = findMember(authentication);
         String refreshToken = tokenProvider.createToken(member.getEmail());
         refreshTokenService.save(member, refreshToken);
+        CookieUtils.add(response, TokenType.REFRESH_TOKEN.getName(), refreshToken, true);
     }
     private Member findMember(Authentication authentication) {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();

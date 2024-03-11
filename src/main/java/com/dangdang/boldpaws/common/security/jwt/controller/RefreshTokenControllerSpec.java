@@ -1,6 +1,6 @@
 package com.dangdang.boldpaws.common.security.jwt.controller;
 
-import com.dangdang.boldpaws.common.security.jwt.dto.AccessTokenResponse;
+import com.dangdang.boldpaws.common.exception.dto.ApiResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -24,5 +24,5 @@ public interface RefreshTokenControllerSpec {
             }
     )
     @PostMapping
-    ResponseEntity<AccessTokenResponse> createAccessToken(HttpServletRequest request);
+    ResponseEntity<ApiResult> createAccessToken(HttpServletRequest request);
 }

@@ -2,7 +2,7 @@ package com.dangdang.boldpaws.member.controller;
 
 import com.dangdang.boldpaws.common.RootTest;
 import com.dangdang.boldpaws.common.exception.constants.ApiStatusCode;
-import com.dangdang.boldpaws.common.util.JsonConverter;
+import com.dangdang.boldpaws.common.utils.JsonConverter;
 import com.dangdang.boldpaws.member.domain.entity.Member;
 import com.dangdang.boldpaws.member.dto.SignUpRequest;
 import com.dangdang.boldpaws.member.exception.DuplicateMemberException;

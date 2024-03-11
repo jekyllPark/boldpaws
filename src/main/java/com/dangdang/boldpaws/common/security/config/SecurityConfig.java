@@ -3,6 +3,7 @@ package com.dangdang.boldpaws.common.security.config;
 import com.dangdang.boldpaws.common.security.jwt.component.JwtAuthenticationEntryPoint;
 import com.dangdang.boldpaws.common.security.jwt.filter.JwtFilter;
 import com.dangdang.boldpaws.common.security.jwt.handler.JwtAccessDeniedHandler;
+import com.dangdang.boldpaws.common.security.oauth.handler.OAuthSuccessHandler;
 import com.dangdang.boldpaws.common.security.oauth.service.OAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final OAuth2UserService oauth2UserService;
+    private final OAuthSuccessHandler oauthSuccessHandler;
 
     /**
      * 비밀번호 암호화를 위한 인코더 등록
@@ -81,13 +83,17 @@ public class SecurityConfig {
                                         "/swagger-ui.html",
                                         "/api-docs/**",
                                         "/favicon.ico",
-                                        "/error"
+                                        "/error",
+                                        "/login/**"
                                 ).permitAll()
+                                /** 정적 자원 전부 허용 */
+                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 /** fixme 권한이 필요한 경로, 추후 API 설계 후 설정 */
+                                .anyRequest().permitAll()
 //                        .requestMatchers(
 //                                ""
 //                        ).authenticated()
-                                .anyRequest().authenticated()
+//                                .anyRequest().authenticated()
                 )
 
                 /** Jwt 사용을 위해 세션 상태 값 설정 */
@@ -100,7 +106,7 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .defaultSuccessUrl("/")
                 .failureUrl("/error") // fixme 로그인 실패 시 에러 페이지 추후 수정
-//                .successHandler(null)
+                .successHandler(oauthSuccessHandler)
                 .userInfoEndpoint(userInfoEndPoint -> userInfoEndPoint.userService(oauth2UserService))
         );
 

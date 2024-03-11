@@ -1,4 +1,4 @@
-package com.dangdang.boldpaws.common.util;
+package com.dangdang.boldpaws.common.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
