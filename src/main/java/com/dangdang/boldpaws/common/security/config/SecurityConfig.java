@@ -5,6 +5,7 @@ import com.dangdang.boldpaws.common.security.jwt.filter.JwtFilter;
 import com.dangdang.boldpaws.common.security.jwt.handler.JwtAccessDeniedHandler;
 import com.dangdang.boldpaws.common.security.oauth.handler.OAuthSuccessHandler;
 import com.dangdang.boldpaws.common.security.oauth.service.OAuth2UserService;
+import com.dangdang.boldpaws.member.domain.entity.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -75,25 +76,13 @@ public class SecurityConfig {
 
                 /** API 엔드포인트, static 등 각 자원에 대한 권한 설정 */
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                                .requestMatchers(PathRequest.toH2Console()).permitAll()
-                                /** 권한이 필요하지 않은 경로 */
-                                .requestMatchers(
-                                        "/member/**",
-                                        "/swagger-ui/**",
-                                        "/swagger-ui.html",
-                                        "/api-docs/**",
-                                        "/favicon.ico",
-                                        "/error",
-                                        "/login/**"
-                                ).permitAll()
-                                /** 정적 자원 전부 허용 */
-                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                /** fixme 권한이 필요한 경로, 추후 API 설계 후 설정 */
-                                .anyRequest().permitAll()
-//                        .requestMatchers(
-//                                ""
-//                        ).authenticated()
-//                                .anyRequest().authenticated()
+                        /** 권한이 필요하지 않은 경로 */
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()
+                        /** 정적 자원 전부 허용 */
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .requestMatchers("/swagger-ui/**", "/api-docs/**", "/login", "/", "/error", "/main").permitAll()
+                        .requestMatchers("/api").hasRole(Role.USER.name())
+                        .anyRequest().authenticated()
                 )
 
                 /** Jwt 사용을 위해 세션 상태 값 설정 */
@@ -104,10 +93,9 @@ public class SecurityConfig {
         /** oauth2 설정 */
         http.oauth2Login(oauth2 -> oauth2
                 .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .failureUrl("/error") // fixme 로그인 실패 시 에러 페이지 추후 수정
-                .successHandler(oauthSuccessHandler)
                 .userInfoEndpoint(userInfoEndPoint -> userInfoEndPoint.userService(oauth2UserService))
+                .successHandler(oauthSuccessHandler)
+                .failureUrl("/error")
         );
 
         /** 로그아웃 시 로그인 페이지로 이동 */

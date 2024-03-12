@@ -1,13 +1,10 @@
 package com.dangdang.boldpaws.member.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Getter
+@Getter @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member extends BaseTimeEntity {
@@ -16,9 +13,9 @@ public class Member extends BaseTimeEntity {
     private Long id;
     @Column(nullable = false)
     private String email;
-    @Column(nullable = false)
+    @Column
     private String password;
-    @Column(nullable = false)
+    @Column
     private String hp;
     @Column(nullable = false)
     private String name;
