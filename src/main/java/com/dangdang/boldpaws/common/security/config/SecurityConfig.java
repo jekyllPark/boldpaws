@@ -77,7 +77,7 @@ public class SecurityConfig {
                 /** API 엔드포인트, static 등 각 자원에 대한 권한 설정 */
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         /** 정적 리소스 접근 허용 */
-                        .requestMatchers("/static/**").permitAll()
+                        .requestMatchers("/static/**", "/favicon.ico").permitAll()
                         /** 권한이 필요하지 않은 경로 */
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers("/swagger-ui/**", "/api-docs/**", "/login", "/", "/error", "/main").permitAll()
