@@ -1,0 +1,80 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%; /* Make sure the html and body are full height */
+    margin: 0;
+}
+body {
+    display: flex;
+    flex-direction: column; /* Stack the header, content, and nav */
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+}
+/* Header */
+.header {
+    background-color: #ffffff;
+    padding: 40px 20px;
+    text-align: center;
+}
+.content {
+    flex: 1; /* This will make the content div take up the remaining space */
+    /* content styles */
+}
+/* Grid Menu */
+.grid-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+}
+.menu-item {
+    text-align: center;
+    padding: 10px;
+}
+.menu-item img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 8px;
+}
+/* Promo Banner */
+.promo-banner {
+    background-color: #a335ee; /* Placeholder color */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+/* Bottom Navigation */
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    height: 70px; /* Height of your nav bar, adjust if needed */
+}
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+.nav-item img {
+    width: 24px;
+    height: 24px;
+}
+.nav-item span {
+    font-size: 12px;
+    margin-top: 4px;
+}
+/* Fix for the gap */
+.content-wrapper {
+    margin-bottom: -70px; /* Negative margin, same as your nav bar height */
+}
