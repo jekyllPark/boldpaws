@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -76,6 +76,8 @@ public class SecurityConfig {
 
                 /** API 엔드포인트, static 등 각 자원에 대한 권한 설정 */
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        /** 메트릭 */
+                        .requestMatchers("/actuator", "/actuator/**").hasRole(Role.ADMIN.name())
                         /** 정적 리소스 접근 허용 */
                         .requestMatchers("/static/**", "/favicon.ico").permitAll()
                         /** 권한이 필요하지 않은 경로 */
@@ -86,9 +88,9 @@ public class SecurityConfig {
                 )
 
                 /** Jwt 사용을 위해 세션 상태 값 설정 */
-                .sessionManagement(sessionManagement ->
+/*                .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                )*/;
 
         /** oauth2 설정 */
         http.oauth2Login(oauth2 -> oauth2
@@ -101,5 +103,10 @@ public class SecurityConfig {
         /** 로그아웃 시 로그인 페이지로 이동 */
         http.logout(logout -> logout.logoutSuccessUrl("/login"));
         return http.build();
+    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        /** 프로메테우스 폴링 제외 */
+        return web -> web.ignoring().requestMatchers("/actuator/prometheus");
     }
 }

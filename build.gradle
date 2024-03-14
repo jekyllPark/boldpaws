@@ -65,6 +65,10 @@ dependencies {
 
     // 타임리프
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // 액츄에이터 및 프로메테우스
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 
