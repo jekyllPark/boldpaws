@@ -2,7 +2,7 @@
 
 ```
 -- 디렉토리 변경
-cd monitor
+cd monitor/metric
 -- 데몬으로 도커라이징
 docker-compose up -d
 
