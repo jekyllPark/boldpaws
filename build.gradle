@@ -72,6 +72,12 @@ dependencies {
 
     // 엘라스틱 서치
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
+    // 어노테이션 프로세서
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // 로그 스태시
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
 }
 
 
