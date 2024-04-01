@@ -21,15 +21,12 @@ services:
       - es-bridge
 
   logstash:
+    image: docker.elastic.co/logstash/logstash:8.10.4
     container_name: logstash
-    image: docker.elastic.co/logstash/logstash:7.10.1
-    environment:
-      - XPACK_MONITORING_ENABLED=false
     ports:
-      - 5000:5000
-      - 9600:9600
+      - "5000:5000"
+      - "9600:9600"
     volumes:
-      - ./logstash/config:/usr/share/logstash/config
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     depends_on:
       - es

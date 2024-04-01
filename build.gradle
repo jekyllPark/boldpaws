@@ -70,9 +70,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-    // 엘라스틱 서치
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-
     // 어노테이션 프로세서
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
