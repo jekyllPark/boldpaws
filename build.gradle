@@ -4,6 +4,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
     /** Rest Docs 플러그인 */
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    /** JaCoCo 플러그인 */
+    id 'jacoco'
 }
 
 group = 'com.dangdang'
@@ -84,7 +86,10 @@ tasks.named('bootJar') {
 
 tasks.named('test') {
     useJUnitPlatform()
+    // REST Doc
     outputs.dir snippetsDir
+    // JaCoCo
+    finalizedBy jacocoTestReport
 }
 
 /**
@@ -112,4 +117,42 @@ task copyDocument(type: Copy) {
 
 build {
     dependsOn copyDocument
+}
+
+/**
+ * JaCoCo 관련 설정
+ * */
+jacoco {
+    toolVersion = '0.8.7'
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+
+    finalizedBy jacocoTestCoverageVerification
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+
+            limit {
+                counter = 'CLASS'
+                value = 'COVEREDRATIO'
+                minimum = 0.90
+            }
+        }
+    }
+}
+
+task testCoverage {
+    group 'verification'
+    dependsOn(':test', ':jacocoTestReport', ':jacocoTestCoverageVerification')
+    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
 }
