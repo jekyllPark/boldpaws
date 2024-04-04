@@ -1,3 +1,20 @@
+# 서드파티
+- 인증 / 인가
+  - OAuth2 (현재 구글만)
+  - JWT
+  - Spring API Gateway 도입 예정
+    - 추가되는 모듈부터 MSA로 확장 (서비스 디스커버리도 고려해야 함.)
+- 모니터링
+  - ELK (로그)
+  - Prometheus + Grafana (메트릭)
+- 테스트
+  - JaCoCo (커버리지)
+  - REST Doc (테스트 문서화)
+- 명세
+  - OpenAPI (Swagger)
+- 암호화
+  - Jasypt 예정
+
 # 도커 실행 방법
 
 ## Prometheus + Grafana
