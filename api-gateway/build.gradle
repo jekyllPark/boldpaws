@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.2'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.boldpaws'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2023.0.1")
+}
+
+dependencies {
+    // 스프링 클라우드 - API gateway
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
+    // Message Queue 핸들러
+    implementation 'org.springframework.cloud:spring-cloud-bus'
+
+    // 스프링 클라우드 설정 (재배포 없이 설정 값을 변경할 수 있는 기능을 지원)
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-config-server'
+
+    // 액츄에이터
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // 데브 툴즈 (라이브 리로딩, 프로퍼티 변경 감지 및 자동 재시작 등 지원)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // 서비스 디스커버리
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    // 롬복
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // 테스트 관련
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
