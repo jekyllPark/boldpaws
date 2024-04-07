@@ -27,14 +27,16 @@ ext {
 
 dependencies {
     // 스프링 클라우드 - API gateway
-    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway-mvc'
 
     // Message Queue 핸들러
-    implementation 'org.springframework.cloud:spring-cloud-bus'
+    implementation("org.springframework.cloud:spring-cloud-starter-bus-kafka")
 
     // 스프링 클라우드 설정 (재배포 없이 설정 값을 변경할 수 있는 기능을 지원)
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     implementation 'org.springframework.cloud:spring-cloud-config-server'
+    implementation 'org.springframework.cloud:spring-cloud-config-dependencies:3.1.5'
 
     // 액츄에이터
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
