@@ -37,7 +37,7 @@ out/
 .vscode/
 
 ### 설정 파일 ###
-*.yml
+member-service/**/*.yml
 prometheus.yml
 !monitor/**/*.yml
 
