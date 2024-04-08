@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BoldPawsApplication {
+public class MemberServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BoldPawsApplication.class, args);
+        SpringApplication.run(MemberServiceApplication.class, args);
     }
 
 }
