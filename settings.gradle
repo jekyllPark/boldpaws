@@ -1,2 +1,5 @@
 rootProject.name = 'boldPaws'
-include 'api-gateway'
+include ':discovery'
+include ':api-gateway'
+include ':member-service'
+
