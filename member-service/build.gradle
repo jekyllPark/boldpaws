@@ -79,11 +79,6 @@ dependencies {
     implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
 }
 
-
-tasks.named('bootJar') {
-    archiveFileName = 'boldPaws.jar'
-}
-
 tasks.named('test') {
     useJUnitPlatform()
     // REST Doc
