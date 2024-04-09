@@ -16,10 +16,9 @@ spring:
         - id: member-service
           uri: lb://MEMBER-SERVICE
           predicates:
-            - Path=/member/{param}
+            - Path=/member/**
           filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/member-service/(?<segment>.*), /$\{segment}
+            - RewritePath=/member/(?<segment>.*), /$\{segment}
 
 token:
   secret: token

@@ -27,7 +27,8 @@ jobs:
       - name: Determine Changed Services
         id: changed_services
         run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.sha }} ${{ github.event.before }})
+          git fetch origin master:master
+          CHANGED_FILES=$(git diff --name-only master)
           echo "Changed files: $CHANGED_FILES"
           SERVICES=""
           if echo "$CHANGED_FILES" | grep -q 'api-gateway/'; then
