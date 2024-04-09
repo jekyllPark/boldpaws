@@ -79,7 +79,7 @@ public class SecurityConfig {
                         /** 메트릭 */
                         .requestMatchers("/actuator", "/actuator/**").hasRole(Role.ADMIN.name())
                         /** 정적 리소스 접근 허용 */
-                        .requestMatchers("/static/**", "/favicon.ico").permitAll()
+                        .requestMatchers("/static/**", "/favicon.ico", "/views/**").permitAll()
                         /** 권한이 필요하지 않은 경로 */
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers("/swagger-ui/**", "/api-docs/**", "/login", "/", "/error", "/main").permitAll()

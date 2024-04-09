@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler("/static/**")
+                .addResourceHandler("/static/**", "/favicon.ico")
                 .addResourceLocations("classpath:/static/")
         ;
     }
