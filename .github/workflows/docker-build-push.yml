@@ -27,8 +27,8 @@ jobs:
       - name: Determine Changed Services
         id: changed_services
         run: |
-          git fetch origin master:master
-          CHANGED_FILES=$(git diff --name-only master)
+          git fetch origin master
+          CHANGED_FILES=$(git diff --name-only FETCH_HEAD $(git rev-parse master))
           echo "Changed files: $CHANGED_FILES"
           SERVICES=""
           if echo "$CHANGED_FILES" | grep -q 'api-gateway/'; then
@@ -54,11 +54,17 @@ jobs:
             docker push jekyllpark0327/$SERVICE:$NEW_VERSION
             echo $NEW_VERSION > $SERVICE/version.txt
           done
-      - name: Send Slack Notification
-        if: always()
+      - name: Send success notification
+        if: success()
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           SERVICE_LIST=$(echo $SERVICES | sed 's/,/, /g')
           curl -X POST -H 'Content-type: application/json' --data "{'text':'CI/CD Pipeline Completed: Services updated: $SERVICE_LIST'}" $SLACK_WEBHOOK_URL
-
+      - name: Send failure notification
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          SERVICE_LIST=$(echo $SERVICES | sed 's/,/, /g')
+          curl -X POST -H 'Content-type: application/json' --data "{'text':'CI/CD Pipeline failed: retry again later'}" $SLACK_WEBHOOK_URL
