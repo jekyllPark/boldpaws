@@ -5,7 +5,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://49.254.179.217:8761/eureka
 
 spring:
   application:
@@ -18,7 +18,13 @@ spring:
           predicates:
             - Path=/member/**
           filters:
-            - RewritePath=/member/(?<segment>.*), /$\{segment}
+            - RewritePath=/member/(?<remaining>.*)$, /$\{remaining}
 
 token:
   secret: token
+
+logging:
+  level:
+    root: debug
+  pattern:
+    console: "%green(%date{'yyyy-MM-dd HH:mm:ss','Asia/Seoul'}) %highlight(%-5level) %cyan(%-35logger{5}) %yellow(%3L) %msg %n"

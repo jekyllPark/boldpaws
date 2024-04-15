@@ -28,7 +28,9 @@ ext {
 
 dependencies {
     // 스프링 클라우드 - API gateway
-    implementation 'org.springframework.cloud:spring-cloud-starter-gateway-mvc'
+//    implementation 'org.springframework.cloud:spring-cloud-starter-gateway-mvc'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 
     // 액츄에이터
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

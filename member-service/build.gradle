@@ -23,6 +23,7 @@ ext {
     JWT_VERSION = "0.11.5"
     OPEN_API_VERSION = "2.0.4"
     GSON_VERSION = "2.8.8"
+    set('springCloudVersion', "2023.0.1")
 }
 
 dependencies {
@@ -82,6 +83,12 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     // 데브 툴즈 (라이브 리로딩, 프로퍼티 변경 감지 및 자동 재시작 등 지원)
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 tasks.named('test') {
