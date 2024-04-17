@@ -14,7 +14,7 @@ import java.io.IOException;
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
-        log.debug("[JwtAccessDeniedHandler] request URI is {}", request.getRequestURI());
-        response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        log.info("[JwtAccessDeniedHandler] request URI is {}", request.getRequestURI());
+        response.sendRedirect("http://localhost:8000/member/forbidden");
     }
 }

@@ -13,7 +13,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -27,18 +27,21 @@ jobs:
       - name: Determine Changed Services
         id: changed_services
         run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.sha }}^!)
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }}^!)
           echo "Changed files: $CHANGED_FILES"
           echo "Commit SHA: ${{ github.sha }}"
           git diff ${{ github.sha }}^! --name-only
           SERVICES=""
           if echo "$CHANGED_FILES" | grep -q 'api-gateway/'; then
+            echo "api-gateway/ changed"
             SERVICES="api-gateway,$SERVICES"
           fi
           if echo "$CHANGED_FILES" | grep -q 'discovery/'; then
+            echo "discovery/ changed"
             SERVICES="discovery,$SERVICES"
           fi
           if echo "$CHANGED_FILES" | grep -q 'member-service/'; then
+            echo "member-service/ changed"
             SERVICES="member-service,$SERVICES"
           fi
           echo "SERVICES=$SERVICES" >> $GITHUB_ENV

@@ -17,4 +17,8 @@ public class IndexController {
     public String error() {
         return "error";
     }
+    @GetMapping("/forbidden")
+    public String forbidden() {
+        return "forbidden";
+    }
 }

@@ -35,7 +35,7 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         refreshTokenService.save(member, refreshToken);
         CookieUtils.add(response, TokenType.REFRESH_TOKEN.getName(), refreshToken, true);
         log.info("member = {} / refreshToken = {}", member, refreshToken);
-        response.sendRedirect("/");
+        response.sendRedirect("http://localhost:8000/member/");
     }
     private Member findMember(Authentication authentication) {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
