@@ -1,8 +1,8 @@
 package com.boldpaws.common.security.config;
 
-import com.boldpaws.common.security.jwt.component.JwtAuthenticationEntryPoint;
+import com.boldpaws.common.security.jwt.component.CustomAuthenticationEntryPoint;
 import com.boldpaws.common.security.jwt.filter.JwtFilter;
-import com.boldpaws.common.security.jwt.handler.JwtAccessDeniedHandler;
+import com.boldpaws.common.security.jwt.handler.CustomAccessDeniedHandler;
 import com.boldpaws.common.security.oauth.handler.OAuthSuccessHandler;
 import com.boldpaws.common.security.oauth.service.OAuth2UserService;
 import com.boldpaws.member.domain.entity.Role;
@@ -28,8 +28,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final OAuth2UserService oauth2UserService;
     private final OAuthSuccessHandler oauthSuccessHandler;
 
@@ -70,8 +70,8 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 /** 커스텀 에러 핸들링 */
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedHandler(jwtAccessDeniedHandler)
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
                 )
 
                 /** API 엔드포인트, static 등 각 자원에 대한 권한 설정 */
@@ -82,7 +82,7 @@ public class SecurityConfig {
                         .requestMatchers("/static/**", "/favicon.ico", "/views/**").permitAll()
                         /** 권한이 필요하지 않은 경로 */
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .requestMatchers("/swagger-ui/**", "/api-docs/**", "/login", "/", "/error", "/main").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/api-docs/**", "/login", "/", "/error", "/main", "/forbidden").permitAll()
                         .requestMatchers("/api").hasRole(Role.USER.name())
                         .anyRequest().authenticated()
                 )

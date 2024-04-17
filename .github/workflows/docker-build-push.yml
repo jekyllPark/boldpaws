@@ -24,33 +24,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Determine Changed Services
-        id: changed_services
+      - name: Build and Push All Services
         run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }}^!)
-          echo "Changed files: $CHANGED_FILES"
-          echo "Commit SHA: ${{ github.sha }}"
-          git diff ${{ github.sha }}^! --name-only
-          SERVICES=""
-          if echo "$CHANGED_FILES" | grep -q 'api-gateway/'; then
-            echo "api-gateway/ changed"
-            SERVICES="api-gateway,$SERVICES"
-          fi
-          if echo "$CHANGED_FILES" | grep -q 'discovery/'; then
-            echo "discovery/ changed"
-            SERVICES="discovery,$SERVICES"
-          fi
-          if echo "$CHANGED_FILES" | grep -q 'member-service/'; then
-            echo "member-service/ changed"
-            SERVICES="member-service,$SERVICES"
-          fi
-          echo "SERVICES=$SERVICES" >> $GITHUB_ENV
-
-      - name: Build and Push Changed Services
-        if: env.SERVICES != ''
-        run: |
-          IFS=',' read -ra ADDR <<< "$SERVICES"
-          for SERVICE in "${ADDR[@]}"; do
+          SERVICES="api-gateway discovery member-service"
+          for SERVICE in $SERVICES; do
             VERSION=$(cat $SERVICE/version.txt)
             NEW_VERSION=$(echo $VERSION + 0.1 | bc)
             echo "Building and pushing $SERVICE:$NEW_VERSION..."

@@ -2,6 +2,7 @@ package com.boldpaws.apigateway.filter;
 
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.env.Environment;
@@ -25,6 +26,7 @@ public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilter
         this.environment = environment;
     }
 
+    @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             log.info("apply triggered, secret key is {}", environment.getProperty("token.secret"));

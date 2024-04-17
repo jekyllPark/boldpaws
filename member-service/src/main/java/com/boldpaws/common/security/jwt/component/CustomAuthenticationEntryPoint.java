@@ -9,16 +9,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-
 @Slf4j
 @Component
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    /** 로그인하지 않은 경우 */
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-        log.debug("[JwtAuthenticationEntryPoint] request URI is {}", request.getRequestURI());
-        response.sendError(SC_FORBIDDEN);
+        log.info("[CustomAuthenticationEntryPoint] request URI is {}", request.getRequestURI());
+        response.sendRedirect("http://localhost:8000/member/login");
     }
 }

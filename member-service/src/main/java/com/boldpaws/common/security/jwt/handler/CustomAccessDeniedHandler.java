@@ -11,10 +11,11 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class JwtAccessDeniedHandler implements AccessDeniedHandler {
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+    /** 권한이 부족한 경우 */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
-        log.info("[JwtAccessDeniedHandler] request URI is {}", request.getRequestURI());
+        log.info("[CustomAccessDeniedHandler] request URI is {}", request.getRequestURI());
         response.sendRedirect("http://localhost:8000/member/forbidden");
     }
 }

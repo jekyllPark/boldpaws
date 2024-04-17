@@ -18,17 +18,15 @@ public class RouterConfig {
                 .route(r -> r.path("/member/**", "/oauth2/**", "/static/**", "/views/**")
                         .filters(f ->
                                 f
-                                        .removeRequestHeader("Cookie")
                                         .rewritePath("/member/(?<remaining>.*)", "/${remaining}")
                         )
                         .uri("lb://MEMBER-SERVICE")
                 )
                 /** 멤버 서비스 라우팅 - 권한 필요 */
-                .route(r -> r.path("/member/actuator/**")
+                .route(r -> r.path("/member/actuator", "/member/actuator/**")
                         .filters(f -> f
-                                .removeRequestHeader("Cookie")
-                                .rewritePath("/member/(?<remaining>.*)", "/${remaining}")
                                 .filter(filterFactory.apply(new JwtAuthenticationGatewayFilterFactory.Config()))
+                                .rewritePath("/member/(?<remaining>.*)", "/${remaining}")
                         )
                         .uri("lb://USER-SERVICE"))
                 .build();
