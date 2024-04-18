@@ -10,7 +10,7 @@
     </appender>
 
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${LOGSTASH_URL:-localhost:5000}</destination>
+        <destination>${LOGSTASH_URL:-49.254.179.217:5000}</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <providers>
                 <mdc />

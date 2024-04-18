@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  es:
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
-    container_name: es
+    container_name: elasticsearch
     environment:
       - node.name=es-node
       - cluster.name=search-cluster
@@ -28,7 +28,7 @@ services:
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     depends_on:
-      - es
+      - elasticsearch
     networks:
       - bold-paws-network
 
@@ -37,10 +37,10 @@ services:
     container_name: kibana
     environment:
       SERVER_NAME: kibana
-      ELASTICSEARCH_HOSTS: http://es:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     ports:
       - 5601:5601
     depends_on:
-      - es
+      - elasticsearch
     networks:
       - bold-paws-network

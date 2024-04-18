@@ -28,12 +28,15 @@ jobs:
         run: |
           SERVICES="api-gateway discovery member-service"
           for SERVICE in $SERVICES; do
-            VERSION=$(cat $SERVICE/version.txt)
-            NEW_VERSION=$(echo $VERSION + 0.1 | bc)
-            echo "Building and pushing $SERVICE:$NEW_VERSION..."
+            LATEST_VERSION=$(curl -s "https://registry.hub.docker.com/v2/repositories/jekyllpark0327/$SERVICE/tags/" | jq -r '.results[].name' | grep -v latest | sort -V | tail -n1)
+            if [ -z "$LATEST_VERSION" ]; then
+            echo "Failed to get the latest version of $SERVICE from Docker Hub."
+            continue
+            fi
+            NEW_VERSION=$(echo "$LATEST_VERSION + 0.1" | bc)
+            echo "Building and pushing jekyllpark0327/$SERVICE:$NEW_VERSION..."
             docker build -t jekyllpark0327/$SERVICE:$NEW_VERSION ./$SERVICE
             docker push jekyllpark0327/$SERVICE:$NEW_VERSION
-            echo $NEW_VERSION > $SERVICE/version.txt
           done
       - name: Send success notification
         if: success()
