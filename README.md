@@ -1,3 +1,6 @@
+# 프로젝트 구성도 (임시)
+![당당하개 drawio](https://github.com/jekyllPark/boldpaws/assets/114489012/c5480a3a-8588-4eaa-988f-d4df57d077d8)
+
 # 서드파티
 - 인증 / 인가
   - OAuth2 (현재 구글만)
