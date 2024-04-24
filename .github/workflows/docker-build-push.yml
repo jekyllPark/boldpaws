@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'api-gateway/**'
-      - 'discovery/**'
-      - 'member-service/**'
+#    paths:
+#      - 'api-gateway/**'
+#      - 'discovery/**'
+#      - 'member-service/**'
 
 jobs:
   build-and-push:
