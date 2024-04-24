@@ -47,7 +47,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // H2 데이터베이스
-    runtimeOnly 'com.h2database:h2'
+//    runtimeOnly 'com.h2database:h2'
+
+    // MySQL
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     // 스프링 독
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${OPEN_API_VERSION}"

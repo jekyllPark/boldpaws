@@ -42,6 +42,7 @@ prometheus.yml
 !monitor/**/*.yml
 
 ### 도커 파일 제외 ###
-/monitor/log/elasticsearch
-/monitor/metric/grafana-data
+/docker-compose/monitor/log/elasticsearch
+/docker-compose/monitor/metric/grafana-data
+/docker-compose/database/mysql/db
 

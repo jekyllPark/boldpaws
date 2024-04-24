@@ -1,0 +1,20 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:latest
+    container_name: bold-paws-mysql
+    platform: linux/x86_64
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bold-paws
+      MYSQL_USER: boldpaws
+      MYSQL_PASSWORD: boldpaws
+      TZ: Asia/Seoul
+    volumes:
+      - ./db/mysql/data:/var/lib/mysql
+      - ./db/mysql/config:/etc/mysql/conf.d
+    networks:
+      - bold-paws-network
