@@ -25,12 +25,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: make application.yml
-        env:
-          APPLICATION_MEMBER_SERVICE: ${{ secrets.APPLICATION_MEMBER_SERVICE }}
-          APPLICATION_OAUTH: ${{ secrets.APPLICATION_OAUTH }}
         run: |
-          echo "${{ APPLICATION_MEMBER_SERVICE }}" > ./member-service/src/main/resources/application.yml
-          echo "${{ APPLICATION_OAUTH }}" > ./member-service/src/main/resources/application-oauth.yml
+          echo "application.yml : ${{ secrets.APPLICATION_MEMBER_SERVICE }}" > ./member-service/src/main/resources/application.yml
+          echo "application-oauth.yml : ${{ secrets.APPLICATION_OAUTH }}" > ./member-service/src/main/resources/application-oauth.yml
         shell: bash
 
       - name: Build and Push All Services
