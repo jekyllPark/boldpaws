@@ -28,7 +28,6 @@ jobs:
         run: |
           echo "application.yml : ${{ secrets.APPLICATION_MEMBER_SERVICE }}" > ./member-service/src/main/resources/application.yml
           echo "application-oauth.yml : ${{ secrets.APPLICATION_OAUTH }}" > ./member-service/src/main/resources/application-oauth.yml
-        shell: bash
 
       - name: Build and Push All Services
         run: |
