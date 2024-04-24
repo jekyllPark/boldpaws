@@ -8,7 +8,6 @@ import com.boldpaws.common.security.oauth.service.OAuth2UserService;
 import com.boldpaws.member.domain.entity.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,7 +60,7 @@ public class SecurityConfig {
                 .httpBasic(HttpBasicConfigurer::disable)
                 /** 폼 로그인 차단 */
                 .formLogin(formLogin -> formLogin.disable())
-                /** h2 콘솔 사용 등을 위함 */
+
                 .headers(headers ->
                         headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
@@ -81,7 +80,6 @@ public class SecurityConfig {
                         /** 정적 리소스 접근 허용 */
                         .requestMatchers("/static/**", "/favicon.ico", "/views/**").permitAll()
                         /** 권한이 필요하지 않은 경로 */
-                        .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers("/swagger-ui/**", "/api-docs/**", "/login", "/", "/error", "/main", "/forbidden").permitAll()
                         .requestMatchers("/api").hasRole(Role.USER.name())
                         .anyRequest().authenticated()

@@ -46,9 +46,6 @@ dependencies {
     // 스프링 벨리데이션
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    // H2 데이터베이스
-//    runtimeOnly 'com.h2database:h2'
-
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
 
