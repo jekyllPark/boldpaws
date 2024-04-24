@@ -26,7 +26,6 @@ jobs:
 
       - name: make application.yml
         run: |
-          mkdir -p ./member-service/src/main/resources
           echo "${{ secrets.APPLICATION_MEMBER_SERVICE }}" > ./member-service/src/main/resources/application.yml
           echo "${{ secrets.APPLICATION_OAUTH }}" > ./member-service/src/main/resources/application-oauth.yml
         shell: bash
