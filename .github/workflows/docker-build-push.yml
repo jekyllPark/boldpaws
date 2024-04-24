@@ -25,9 +25,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: make application.yml
-        if: |
-          contains(github.ref, 'main') ||
-          contains(github.ref, 'develop')
         run: |
           mkdir -p ./member-service/src/main/resources
           echo "${{ secrets.APPLICATION_MEMBER_SERVICE }}" > ./member-service/src/main/resources/application.yml
