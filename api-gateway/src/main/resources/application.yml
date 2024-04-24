@@ -14,11 +14,6 @@ spring:
 token:
   secret: token
 
-jwt:
-  #echo 'boldPaws-jwt-generator-2024-02-26|base64
-  secret: Ym9sZFBhd3Mtand0LWdlbmVyYXRvci0yMDI0LTAyLTI2
-  token-validity-in-seconds: 86400
-
 logging:
   level:
     root: info

@@ -15,6 +15,8 @@ ENV PATH="/opt/gradle/gradle-8.7/bin:${PATH}"
 WORKDIR /app
 COPY . .
 
+COPY src/main/resources/application.yml /app/src/main/resources/
+
 RUN gradle clean build
 
 RUN cp build/libs/member-service-0.0.1-SNAPSHOT.jar member-service.jar
