@@ -1,3 +1,2 @@
 # 프로젝트 구성도
-![당당하개 drawio (1)](https://github.com/jekyllPark/boldpaws/assets/114489012/9e3c6e60-fe6e-427a-b61f-4669ef0e9221)
-
+![당당하개 drawio (2)](https://github.com/jekyllPark/boldpaws/assets/114489012/66421b56-d4bf-4593-b910-010f0b4b1575)
