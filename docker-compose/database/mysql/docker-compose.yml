@@ -1,7 +1,7 @@
 version: "3"
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:8.3.0
     container_name: bold-paws-mysql
     platform: linux/x86_64
     restart: always
