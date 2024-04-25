@@ -3,14 +3,14 @@ version: '3'
 services:
   # 애플리케이션
   discovery:
-    image: jekyllpark0327/discovery:1.5
+    image: jekyllpark0327/discovery:2.0
     container_name: discovery
     networks:
       - bold-paws-network
     ports:
       - "8761:8761"
   api-gateway:
-    image: jekyllpark0327/api-gateway:1.5
+    image: jekyllpark0327/api-gateway:2.0
     container_name: api-gateway
     networks:
       - bold-paws-network
@@ -18,15 +18,20 @@ services:
       - "8000:8000"
     environment:
       eureka.client.serviceUrl.defaultZone: "http://discovery:8761/eureka/"
-#  member-service:
-#    image: jekyllpark0327/member-service:2.6
-#    container_name: member-service
-#    networks:
-#      - bold-paws-network
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      eureka.client.serviceUrl.defaultZone: "http://discovery:8761/eureka/"
+  member-service:
+    image: jekyllpark0327/member-service:3.3
+#    build:
+#      context: ../member-service
+#      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    container_name: member-service
+    networks:
+      - bold-paws-network
+    ports:
+      - "8080:8080"
+    environment:
+      eureka.client.serviceUrl.defaultZone: "http://discovery:8761/eureka/"
   # 추후 Config 서버를 추가할 것인데, rabbitMQ 와 Kafka 둘 중 어떤 걸 사용할지 좀 더 알아보고 결정
 
   # ELK 스택, 별도의 컴포즈 파일을 확장해서 사용
